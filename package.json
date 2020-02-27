@@ -1,0 +1,19 @@
+{
+  "name": "logger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "export": "node index.js > export.txt"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "moment": "^2.24.0",
+    "request": "^2.88.2"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0"
+  }
+}

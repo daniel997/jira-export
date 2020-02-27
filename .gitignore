@@ -1,0 +1,12 @@
+/node_modules
+export.txt
+.env
+
+# OSX
+#
+.DS_Store
+
+# IDE
+.idea
+.vscode
+.iml
