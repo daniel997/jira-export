@@ -2,22 +2,17 @@ const moment = require('moment');
 const request = require('request');
 require('dotenv').config();
 
-
-const login = `${process.env.JIRA_USER}:${process.env.JIRA_PASSWORD}`;
-let armoredAuth = new Buffer.from(login).toString('base64');
-
 const loadWorklogData = (worklog) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         const requestOptions = {
             url: worklog.path,
             headers: {
-                'Authorization': `Basic ${armoredAuth}`,
                 'Content-Type': 'application/json',
+                'cookie': process.env.JIRA_COOKIE,
             },
         };
         request(requestOptions, (error, response, body) => {
-            const worklogs = JSON.parse(body).worklogs.filter(log => log.author.name === process.env.JIRA_USER.toLowerCase());
-
+            const worklogs = JSON.parse(body).worklogs.filter(log => log.author.name === process.env.JIRA_USER);
             resolve({
                 data: worklogs,
                 key: worklog.key,
@@ -27,12 +22,12 @@ const loadWorklogData = (worklog) => {
 };
 
 const loadAllWorklogs = () => {
-    return new Promise((resolve, reject) => {
+    return new Promise(() => {
         const requestOptions = {
             url: `${process.env.JIRA_PATH}/rest/api/latest/search?jql=worklogAuthor=currentUser()%20AND%20worklogDate>=startOfMonth()`,
             headers: {
-                'Authorization': `Basic ${armoredAuth}`,
                 'Content-Type': 'application/json',
+                'cookie': process.env.JIRA_COOKIE,
             }
         };
 
